@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+        .container
+        {
+            height: 100vh;
+            width: 100%;
+            background-color: rgb(17, 42, 54);
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            flex-direction: column;
+        }
+        .head
+        {
+            color: white;
+            margin: 5px;
+        }
+        form input
+        {
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: none;
+
+        }
+        .profileBox
+        {
+            height: 50vh;
+            width: 30%;
+            border-radius: 12px;
+            /* background-color: blue; */
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .profileBox img
+        {
+            height: 20vh;
+            border-radius: 50%;
+            
+        }
+        .profileBox h3
+        {
+            color: white;
+        }
+        .details a{
+            color: white;
+            text-decoration: none;
+            margin: 2px;
+            font-weight: 600;  
+        }
+        .details a:hover{
+            color: blueviolet;
+        }
+    </style>
+</head>
+<body>
+    
+
+    <div class="container">
+        <h1 class="head">GitHub Profile Finder</h1>
+        <form action="">
+            <input type="search" placeholder="Enter Ur Profile Name" name="" id="SearchEl">
+        </form>
+    
+    
+        <div class="profileBox">
+            <div class="imgB0x">
+                <img id="imgEl" src="" alt="">
+            </div>
+           <div class="details">
+            <h3 id="name"></h3>
+            <h3 id="followers"></h3>
+            <h3 id="following"></h3>
+            <a href="" id="eventsUrl"></a><br>
+            <a href="" id="userUrl"></a>
+
+            <h3 id="repolink"></h3>
+           </div>
+        </div>
+    </div>
+
+
+    <script>
+
+document.forms[0].addEventListener('submit',(e)=>{
+
+e.preventDefault()
+
+let searchEl = e.target[0].value
+
+        let URL =`https://api.github.com/users/${searchEl}`
+
+        fetch(URL)
+        .then((x)=>{
+            return x.json()
+        })
+        .then((y)=>{
+            console.log(y);
+            
+        let imgEl = document.getElementById('imgEl')
+        imgEl.setAttribute('src',y.avatar_url)
+
+        let name = document.getElementById('name')
+        name.textContent = y.name;
+
+        let followers = document.getElementById('followers')
+        followers.textContent = 'Followers : '+y.followers;
+
+        let following = document.getElementById('following')
+        following.textContent = "Following : " + y.following;
+
+        let eventsUrl = document.getElementById('eventsUrl')
+        eventsUrl.setAttribute('href',y.gists_url)
+        eventsUrl.textContent = "EVENTS"
+
+        let userUrl = document.getElementById('userUrl')
+        userUrl.setAttribute('href',y.html_url)
+        userUrl.textContent = 'GitHub link'
+        
+        })
+
+
+        // fetch(https://api.github.com/users/${searchEl}/repos)
+        // .then((a)=>{
+        //     return a.json()
+        // })
+        // .then((data)=>{
+
+        //     let repolink = document.getElementById('repolink')
+        //     repolink.textContent = data
+
+        // })
+
+        e.target[0].value=''
+    })
+        
+
+    </script>
+</body>
+</html>
